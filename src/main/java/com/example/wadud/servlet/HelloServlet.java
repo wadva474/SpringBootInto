@@ -16,27 +16,28 @@ public class HelloServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("Running Hello Servlet doMethod");
     }
-}
 
-@WebFilter(filterName = "helloFilter", urlPatterns = "/helloServlet")
-class HelloFilter implements Filter {
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("Executing doFilter method");
-        filterChain.doFilter(servletRequest, servletResponse);
-        System.out.println("Done executing doFilter method");
-    }
-}
 
-@WebListener
-class HelloListeners implements ServletContextListener{
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("Servlet Context Initialized");
+    @WebFilter(filterName = "helloFilter", urlPatterns = "/helloServlet")
+    public static class HelloFilter implements Filter {
+        @Override
+        public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+            System.out.println("Executing doFilter method");
+            filterChain.doFilter(servletRequest, servletResponse);
+            System.out.println("Done executing doFilter method");
+        }
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("Servlet Context Destroyed");
+    @WebListener
+    public static class HelloListeners implements ServletContextListener {
+        @Override
+        public void contextInitialized(ServletContextEvent sce) {
+            System.out.println("Servlet Context Initialized");
+        }
+
+        @Override
+        public void contextDestroyed(ServletContextEvent sce) {
+            System.out.println("Servlet Context Destroyed");
+        }
     }
 }
